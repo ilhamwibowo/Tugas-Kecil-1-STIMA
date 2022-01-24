@@ -137,7 +137,7 @@ void find_word(char** grid, int row, int col, int *ctr, char* word, int R, int C
     return;
 }
 
-int patternSearch(char** grid, char* word, int R, int C)
+int search_word_grid(char** grid, char* word, int R, int C)
 {
     int temp_ctr = 0;
     for (int row = 0; row < R; row++) {
@@ -186,9 +186,13 @@ int main(void)
     double elapsed;
     int counter = 0;
 
+    char filenm[100];
+    printf("Masukkan nama file yang ingin digunakan : ");
+    scanf("%s", &filenm);
+    printf("%s", filenm);
 
     //cari banyak kolom, baris, dan banyak kata yang akan dicari
-    get_rows_columns("input.txt",&rows,&cols,&word_ctr);
+    get_rows_columns(filenm,&rows,&cols,&word_ctr);
 
     //alokasi matriks untuk word grid
     char** mat=malloc(rows*sizeof(char*)); 
@@ -199,7 +203,7 @@ int main(void)
     //baca matriks dan masukkan hasil kedalam mat
     char* word[20];
     FILE *f;
-    f = fopen ("input.txt", "r");
+    f = fopen (filenm, "r");
 
     //mengubah matriks dalam file menjadi variable matriks
     for(int i = 0; i < rows; ++i)
@@ -216,14 +220,14 @@ int main(void)
     for (int i = 0; i < word_ctr; i++) {
         fscanf(f,"%s", &word);
         printf("\n%s\n\n", word);
-        counter += patternSearch(mat, word, rows, cols);
+        counter += search_word_grid(mat, word, rows, cols);
     }
     end_time = clock();
     elapsed = (((double)(end_time - start_time))/ CLOCKS_PER_SEC);
     fclose (f);
 
     printf("\n");
-    printf("SEARCH COMPLETED, TIME TAKEN : %f seconds, %d COMPARISON", elapsed,counter);
+    printf("SEARCH COMPLETED,\nTIME TAKEN : %f seconds,\n%d TOTAL COMPARISON", elapsed,counter);
     printf("\n");
     // for(int i = 0; i < rows; ++i)
     // {
