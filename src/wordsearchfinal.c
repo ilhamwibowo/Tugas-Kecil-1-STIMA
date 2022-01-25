@@ -96,30 +96,25 @@ int print_word(char** grid, int dir,int row,int col, int word_length, int R, int
 
 void find_word(char** grid, int row, int col, int *ctr, char* word, int R, int C)
 {
+    int k;
+    int rowdir;
+    int coldir;
     int x[8] = {0, 1, 1, 1, 0,-1,-1,-1}; //geser baris
     int y[8] = {1, 1, 0,-1,-1,-1, 0, 1};//pergeseran kolom
-    // If first character of word doesn't
-    // match with given starting point in grid.
     if (grid[row][col] != word[0]) {
         *ctr += 1;
         return;
     }
- 
     int len = strlen(word);
- 
-    // Search word in all 8 directions
-    // starting from (row, col)
     for (int dir = 0; dir < 8; dir++) {
-        int k;
-        int rowdir = row + x[dir];
-        int coldir = col + y[dir];
- 
+        rowdir = row + x[dir];
+        coldir = col + y[dir];
         for (k = 1; k < len; k++) {
             *ctr += 1;
-            if (rowdir >= R || rowdir < 0 || coldir >= C || coldir < 0) {
+            if (rowdir >= R || rowdir < 0 || coldir >= C || coldir < 0) {//keluar batas
                 break;
             }
-            else if (grid[rowdir][coldir] != word[k]) {
+            else if (grid[rowdir][coldir] != word[k]) { //tidak sama
                 break;
             }
             else {
@@ -148,33 +143,6 @@ int search_word_grid(char** grid, char* word, int R, int C)
     return temp_ctr;
 }   
 
-// int match_word(char** mat,char *target, int word_length, int text_length, int r, int c) {
-//     //kamus
-//     int i = 0;
-//     int j;
-//     int found = 0;
-//     while((i <= text_length-word_length) && (!found)) {
-//         j = 0;
-//         while (j < word_length && mat[r][i+j] == target[j]) {
-//             j += 1;
-//         }
-
-//         if (j == word_length) {
-//             found = 1;
-//         }
-//         else {
-//             i += 1;
-//         }
-//     }
-
-//     if (found) {
-//         return i;
-//     }
-//     else {
-//         return -1;
-//     }
-// }
-
 
 int main(void)
 {
@@ -187,13 +155,12 @@ int main(void)
     int counter = 0;
 
     char filenm[100];
-    printf("Masukkan nama file yang ingin digunakan : ");
+    printf("Masukkan nama file yang ingin digunakan (contoh : ../test/test.txt) : ");
     scanf("%s", &filenm);
-    printf("%s", filenm);
 
     //cari banyak kolom, baris, dan banyak kata yang akan dicari
     get_rows_columns(filenm,&rows,&cols,&word_ctr);
-
+    
     //alokasi matriks untuk word grid
     char** mat=malloc(rows*sizeof(char*)); 
     for(int i=0;i<rows;++i) {
