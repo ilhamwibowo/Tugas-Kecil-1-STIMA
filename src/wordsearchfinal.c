@@ -107,6 +107,7 @@ void find_word(char** grid, int row, int col, int *ctr, char* word, int R, int C
     }
     int len = strlen(word);
     for (int dir = 0; dir < 8; dir++) {
+
         rowdir = row + x[dir];
         coldir = col + y[dir];
         for (k = 1; k < len; k++) {
